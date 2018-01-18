@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="template/template.xhtml">
+		<ui:define name="content">
+			<h:form id="form_cad">
+			<p:growl life="5000" sticky="false" showDetail="true" />
+
+				<p:panel header="Emprestar Livro">
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Selecione um cliente:" />
+						<p:commandButton id="btn_cliente"
+							value="#{EmprestimoMB.txtBtnCliente}" type="button"
+							onclick="PF('select_cliente').show();" />
+
+						<p:outputLabel value="Selecione os Livros:" />
+
+						<p:commandButton value="Livros Selecionados" type="button"
+							onclick="PF('select_livro').show();" />
+
+						<p:outputLabel value="Inicio:" />
+						<p:calendar value="#{EmprestimoMB.bean.inicio}" />
+
+						<p:outputLabel value="Fim:" />
+						<p:calendar value="#{EmprestimoMB.bean.fim}" />
+
+
+					</p:panelGrid>
+					<p:commandButton action="#{EmprestimoMB.gravar}" value="Confirmar" update="form_cad" />
+				</p:panel>
+
+				<p:dialog header="Selecione um cliente" widgetVar="select_cliente"
+					showEffect="explode" hideEffect="explode" height="300" width="600">
+
+
+					<p:dataTable selectionMode="single" var="cliente"
+						value="#{ClienteMB.list}" selection="#{EmprestimoMB.bean.cliente}"
+						rowKey="#{cliente.id}">
+						<p:ajax event="rowSelect" listener="#{EmprestimoMB.teste}"
+							update=":form_cad:btn_cliente" />
+
+
+						<p:column headerText="Nome">#{cliente.nome}</p:column>
+						<p:column headerText="CPF">#{cliente.cpf}</p:column>
+					</p:dataTable>
+				</p:dialog>
+
+
+
+			</h:form>
+
+
+			<p:dialog header="Selecione os Livros" widgetVar="select_livro"
+				showEffect="explode" hideEffect="explode" height="300" width="300">
+
+				<p:dataTable var="livro" value="#{LivroMB.lista}"
+					selection="#{EmprestimoMB.bean.livros}" rowKey="#{livro.id}">
+					<p:column selectionMode="multiple" />
+					<p:column headerText="Nome">#{livro.nome}</p:column>
+				</p:dataTable>
+			</p:dialog>
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

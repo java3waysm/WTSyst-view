@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="template/template.xhtml">
+		<ui:define name="content">
+			<h:form id="form_livro">
+				<p:panel header="Cadastro de Livros">
+
+					<p:growl sticky="false" life="5000" showDetail="true" />
+					<p:panelGrid columns="2" header="Cadastro de Livros">
+						<p:outputLabel value="Nome" />
+						<p:inputText value="#{LivroMB.bean.nome}" />
+
+						<p:outputLabel value="Autor" />
+						<p:commandButton id="campo_autor" value="#{LivroMB.labelAutor}"
+							type="button" onclick="PF('tab_autor').show();" />
+
+						<p:outputLabel value="Editora" />
+						<p:commandButton id="campo_editora"
+							value="#{LivroMB.labelEditora}" type="button"
+							onclick="PF('tab_editora').show();" />
+
+						<p:outputLabel value="Edição" />
+						<p:inputText value="#{LivroMB.bean.edicao}" />
+
+						<p:outputLabel value="Publicação" />
+						<p:calendar value="#{LivroMB.bean.publicacao}" />
+
+						<p:outputLabel value="Gênero" />
+						<p:commandButton id="campo_genero" value="#{LivroMB.labelGenero}"
+							type="button" onclick="PF('tab_genero').show();" />
+
+					</p:panelGrid>
+					<p:panelGrid columns="3" >
+						<p:commandButton   action="#{LivroMB.insert}" update="form_livro"
+							value="Cadastrar" />
+
+					</p:panelGrid>
+
+					<p:dialog header="Gênero do Livro" widgetVar="tab_genero"
+						modal="true" closable="false" height="300" width="600">
+
+						<p:dataTable id="id_tab_genero" var="genero"
+							value="#{GeneroMB.lista}" selection="#{LivroMB.bean.genero}"
+							rowKey="#{genero.id}"
+							emptyMessage="Nenhum gênero foi cadastrado.">
+							<f:facet name="header">Selecione o gênero do livro:</f:facet>
+							<p:column selectionMode="single"
+								style="width:16px;text-align:center" />
+							<p:column headerText="Id">
+								<h:outputText value="#{genero.id}" />
+							</p:column>
+							<p:column headerText="Nome">
+								<h:outputText value="#{genero.nome}" />
+							</p:column>
+							<f:facet name="footer">
+								<p:commandButton process="id_tab_genero"
+									update=":form_livro:campo_genero" value="Confirmar"
+									onclick="PF('tab_genero').hide()"
+									action="#{LivroMB.mostrarSelecaoGenero}" />
+							</f:facet>
+						</p:dataTable>
+
+					</p:dialog>
+
+					<p:dialog header="Autor do Livro" widgetVar="tab_autor"
+						modal="true" height="300" width="600" closable="false">
+
+						<p:dataTable id="id_tab_autor" var="autor" value="#{AutorMB.list}"
+							selection="#{LivroMB.bean.autor}" rowKey="#{autor.id}"
+							emptyMessage="Nenhum autor foi cadastrado.">
+							<f:facet name="header">Selecione o autor do livro:</f:facet>
+							<p:column selectionMode="single"
+								style="width:16px;text-align:center" />
+							<p:column headerText="Id">
+								<h:outputText value="#{autor.id}" />
+							</p:column>
+							<p:column headerText="Nome">
+								<h:outputText value="#{autor.nome}" />
+							</p:column>
+							<p:column headerText="CPF">
+								<h:outputText value="#{autor.cpf}" />
+							</p:column>
+							<f:facet name="footer">
+								<p:commandButton process="id_tab_autor"
+									update=":form_livro:campo_autor" value="Confirmar"
+									onclick="PF('tab_autor').hide()"
+									action="#{LivroMB.mostrarSelecaoAutor}" />
+							</f:facet>
+						</p:dataTable>
+					</p:dialog>
+
+					<p:dialog header="Editora do Livro" widgetVar="tab_editora"
+						modal="true" height="300" width="600">
+
+						<p:dataTable id="id_tab_editora" var="editora"
+							value="#{EditoraMB.list}" selection="#{LivroMB.bean.editora}"
+							rowKey="#{editora.id}"
+							emptyMessage="Nenhum autor foi cadastrado.">
+							<f:facet name="header">Selecione a editora do livro:</f:facet>
+							<p:column selectionMode="single"
+								style="width:16px;text-align:center" />
+							<p:column headerText="Id">
+								<h:outputText value="#{editora.id}" />
+							</p:column>
+							<p:column headerText="Nome">
+								<h:outputText value="#{editora.nome}" />
+							</p:column>
+							<p:column headerText="Telefone">
+								<h:outputText value="#{editora.telefone}" />
+							</p:column>
+							<p:column headerText="Endereço">
+								<h:outputText value="#{editora.endereco}" />
+							</p:column>
+							<f:facet name="footer">
+								<p:commandButton process="id_tab_editora"
+									update=":form_livro:campo_editora" value="Confirmar"
+									onclick="PF('tab_editora').hide()"
+									action="#{LivroMB.mostrarSelecaoEditora}" />
+							</f:facet>
+						</p:dataTable>
+					</p:dialog>
+
+					<hr></hr>
+					<p:dataTable var="livro" value="#{LivroMB.lista}">
+						<f:facet name="header">Livros cadastrados:</f:facet>
+						<p:column headerText="Nome">#{livro.nome}</p:column>
+						<p:column headerText="Autor">#{livro.autor.nome}</p:column>
+						<p:column headerText="Editora">#{livro.editora.nome}</p:column>
+						<p:column headerText="Edição">#{livro.edicao}</p:column>
+						<p:column headerText="Publicação">#{livro.publicacao}</p:column>
+						<p:column headerText="Gênero">#{livro.genero.nome}</p:column>
+					</p:dataTable>
+
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

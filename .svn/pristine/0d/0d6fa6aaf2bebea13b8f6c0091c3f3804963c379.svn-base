@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="template/template.xhtml">
+		<ui:define name="content">
+			<h:form id="form_cliente">
+				<p:growl sticky="false" life="5000" showDetail="true" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nome: " />
+					<p:inputText value="#{ClienteMB.bean.nome}" />
+
+					<p:outputLabel value="CPF: " />
+					<p:inputMask value="#{ClienteMB.bean.cpf}" mask="999.999.999-99"/>
+
+					<p:commandButton value="Gravar" action="#{ClienteMB.gravar}"
+						update="form_cliente" />
+				</p:panelGrid>
+
+				<p:dataTable value="#{ClienteMB.list}" var="cliente">
+					<p:column headerText="Nome">#{cliente.nome}</p:column>
+					<p:column headerText="CPF">#{cliente.cpf}</p:column>
+				</p:dataTable>
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
