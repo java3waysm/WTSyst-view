@@ -20,6 +20,7 @@ public class EmpresaMB extends SpringBeanAutowiringSupport {
 	@Autowired
 	private EmpresaBCI controle;
 
+	
 	@PostConstruct
 	public void init() {
 		this.empresas = controle.select();

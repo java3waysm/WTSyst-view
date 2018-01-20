@@ -20,14 +20,35 @@
 
 					<p:outputLabel value="Endereço" />
 					<p:inputText value="#{EmpresaMB.bean.endereco}" />
-					
-					<p:commandButton value="Cadastrar" update="form_empresa" action="#{EmpresaMB.insert}" />
+
+					<p:commandButton value="Cadastrar" update="form_empresa"
+						action="#{EmpresaMB.insert}" />
+
+					<p:commandButton value="Cadastrar Funcionário" type="button"
+						onclick="PF('dlg3').show();" />
 				</h:panelGrid>
-				
+
 				<p:dataTable var="e" value="#{EmpresaMB.empresas}">
 					<p:column headerText="Nome"> #{e.razaoSocial}</p:column>
 					<p:column headerText="Endereço"> #{e.endereco}</p:column>
 				</p:dataTable>
+
+				<p:dialog header="Effects" widgetVar="dlg3" showEffect="explode"
+					hideEffect="bounce" height="100">
+					<p:outputLabel value="Nome" />
+					<p:inputText value="#{FuncionarioMB.bean.nome}" id="n_funcionario" />
+
+					<p:outputLabel value="CPF" />
+					<p:inputText value="#{FuncionarioMB.bean.cpf}" id="cpf_funcionario" />
+
+					<p:commandButton value="Cadastrar" action="#{FuncionarioMB.insert}" update="form_empresa" />
+
+					<p:dataTable var="f" value="#{FuncionarioMB.funcionarios}" id="l_funcionarios">
+						<p:column headerText="Nome"> #{f.nome}</p:column>
+						<p:column headerText="CPF"> #{f.cpf}</p:column>
+					</p:dataTable>
+
+				</p:dialog>
 			</h:form>
 
 
