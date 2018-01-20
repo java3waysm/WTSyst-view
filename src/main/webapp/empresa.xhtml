@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="template/template.xhtml">
+		<ui:define name="content">
+			<h:form id="form_empresa">
+				<p:growl sticky="false" life="5000" showDetail="true" />
+				<h:panelGrid columns="2">
+					<p:outputLabel value="razaoSocial" />
+					<p:inputText value="#{EmpresaMB.bean.razaoSocial}" />
+
+
+					<p:outputLabel value="Endereço" />
+					<p:inputText value="#{EmpresaMB.bean.endereco}" />
+					
+					<p:commandButton value="Cadastrar" update="form_empresa" action="#{EmpresaMB.insert}" />
+				</h:panelGrid>
+				
+				<p:dataTable var="e" value="#{EmpresaMB.empresas}">
+					<p:column headerText="Nome"> #{e.razaoSocial}</p:column>
+					<p:column headerText="Endereço"> #{e.endereco}</p:column>
+				</p:dataTable>
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
